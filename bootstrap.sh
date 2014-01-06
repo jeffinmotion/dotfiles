@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 cd "$(dirname "${BASH_SOURCE}")"
 git pull origin master
 
@@ -52,8 +52,10 @@ function linkExtra() {
 }
 
 function doIt() {
-	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" --exclude "README.md" -av . ~
-	linkExtra
+	rsync --exclude ".git/" --exclude ".DS_Store" --exclude "bootstrap.sh" \
+		--exclude "README.md" --exclude "LICENSE-MIT.txt" -av --no-perms . ~
+	source ~/.bash_profile
+  linkExtra
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
@@ -66,4 +68,3 @@ else
 	fi
 fi
 unset doIt
-source ~/.bash_profile
